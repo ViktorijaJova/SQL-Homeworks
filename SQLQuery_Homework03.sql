@@ -6,55 +6,47 @@ COUNT(g.Grade) as AllGrades
 FROM dbo.[Grade] as g
 GO
 
-SELECT t.Id,t.FirstName,t.LastName,
+SELECT g.TeacherID,
 COUNT(g.Grade) as GradePerTeacher
 FROM dbo.[Grade] as g
-INNER JOIN dbo.[Teacher] as t on t.Id = g.TeacherID
-GROUP BY t.Id,t.FirstName,t.LastName
+GROUP BY g.TeacherID
 GO
 
-SELECT t.Id,t.FirstName,t.LastName,
+SELECT g.TeacherID,
 COUNT(g.Grade) as GradePerTeacher
 FROM dbo.[Grade] as g
-INNER JOIN dbo.[Teacher] as t on t.Id = g.TeacherID
-INNER JOIN dbo.[Student] as s on s.Id = g.StudentId
-WHERE s.Id < 100
-GROUP BY t.Id,t.FirstName,t.LastName
+WHERE g.StudentId < 100
+GROUP BY g.TeacherID
 GO
 
-SELECT s.Id,s.FirstName,s.LastName,
+SELECT g.StudentId,
 MAX(g.Grade) as GradeMax,
 AVG(g.Grade) as GradeAvg
 FROM dbo.[Grade] as g
-INNER JOIN dbo.[Student] as s on s.Id = g.StudentId
-GROUP BY s.Id,s.FirstName,s.LastName
+GROUP BY g.StudentId
 GO
 
-SELECT t.Id,t.FirstName,t.LastName,
+SELECT g.TeacherID,
 COUNT(g.Grade) as GradePerTeacher
 FROM dbo.[Grade] as g
-INNER JOIN dbo.[Teacher] as t on t.Id = g.TeacherID
-GROUP BY t.Id,t.FirstName,t.LastName
+GROUP BY g.TeacherID
 HAVING COUNT(g.Grade) > 200
 GO
 
-SELECT t.Id, t.FirstName, t.LastName,
+SELECT g.TeacherID,
 COUNT(g.Grade) as GradePerTeacher
 FROM dbo.[Grade] as g
-INNER JOIN dbo.[Teacher] as t on t.Id = g.TeacherID
-INNER JOIN dbo.[Student] as s on s.Id = g.StudentId
-WHERE s.Id < 100
-GROUP BY t.Id,t.FirstName,t.LastName
+WHERE g.StudentId < 100
+GROUP BY g.TeacherID
 HAVING COUNT(g.Grade) > 50
 GO
 
-SELECT s.Id,
+SELECT g.StudentId,
 COUNT(g.Grade) as GradeCount,
 MAX(g.Grade) as GradeMax,
 AVG(g.Grade) as GradeAvg
 FROM dbo.[Grade] as g
-INNER JOIN dbo.[Student] as s on s.Id = g.StudentId
-GROUP BY s.Id,s.FirstName,s.LastName
+GROUP BY g.StudentId
 GO
 
 SELECT s.Id, s.FirstName,s.LastName,
@@ -106,6 +98,7 @@ COUNT(g.CourseId) as PassedCourse
 FROM dbo.[GradeDetails] as gd
 INNER JOIN dbo.[Grade] as g on g.Id = gd.GradeId
 INNER JOIN dbo.[Student] as s on s.Id = g.StudentId
+WHERE gd.AchievementTypeID = 5
 GROUP BY s.Id, s.FirstName, s.LastName
 GO
 
