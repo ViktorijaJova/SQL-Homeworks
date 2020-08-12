@@ -94,10 +94,11 @@ GO
 CREATE VIEW vv_StudentGradeDetails
 AS
 SELECT s.Id, s.FirstName, s.LastName,
-COUNT(g.CourseId) as PassedCourse 
+COUNT(gd.AchievementTypeID) as PassedCourse 
 FROM dbo.[GradeDetails] as gd
 INNER JOIN dbo.[Grade] as g on g.Id = gd.GradeId
 INNER JOIN dbo.[Student] as s on s.Id = g.StudentId
+INNER JOIN dbo.[AchievementType] as at on gd.AchievementTypeID = at.Id
 WHERE gd.AchievementTypeID = 5
 GROUP BY s.Id, s.FirstName, s.LastName
 GO
