@@ -10,7 +10,6 @@ SELECT s.FirstName as StudenFirstName, s.LastName as StudentLastName, g.Grade, g
 FROM dbo.[GradeDetails] AS gd
 INNER JOIN dbo.[Grade] AS g ON gd.GradeID = g.Id
 INNER JOIN dbo.[Student] AS s ON g.StudentID = s.Id
-WHERE gd.AchievementTypeID = 5 
 AND g.TeacherID = @TeacherID 
 AND g.CourseID = @CourseID
 GROUP BY s.FirstName, s.LastName, g.Grade, g.CreatedDate 
