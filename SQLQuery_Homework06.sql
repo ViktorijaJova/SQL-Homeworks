@@ -62,8 +62,8 @@ GO
 CREATE OR ALTER PROCEDURE dbo.usp_CreateGradeDetails
 (@GradeId int,
 @AchievmentTypeID smallint,
-@AchievementPoints decimal(18,2),
-@AchievementMaxPoints decimal (18,2),
+@AchievementPoints tinyint,
+@AchievementMaxPoints tinyint,
 @AchievementDate date
 )
 AS
@@ -74,7 +74,7 @@ VALUES (@GradeId,@AchievmentTypeID,@AchievementPoints,@AchievementMaxPoints,@Ach
 
 
 SELECT gd.GradeID, 
-SUM( (gd.AchievementPoints/gd.AchievementMaxPoints) * a.ParticipationRate) AS GradePoints
+SUM(cast(gd.AchievementPoints as decimal (18,2))/cast(gd.AchievementMaxPoints as decimal (18,2)) * a.ParticipationRate) AS GradePoints
 FROM dbo.[GradeDetails] AS gd
 INNER JOIN dbo.AchievementType AS a ON gd.AchievementTypeID = a.Id
 WHERE gd.GradeID = @GradeID
@@ -85,16 +85,16 @@ GO
 EXEC dbo.usp_CreateGradeDetails
 @GradeID = 122, 
 @AchievmentTypeID = 10,  
-@AchievementPoints = 55.6,
-@AchievementMaxPoints = 100.00, 
+@AchievementPoints = 55,
+@AchievementMaxPoints = 100, 
 @AchievementDate = '2017-03-11'
 GO
 
 EXEC dbo.usp_CreateGradeDetails
 @GradeID = 2013, 
 @AchievmentTypeID = 15,  
-@AchievementPoints = 94.8,
-@AchievementMaxPoints = 100.00, 
+@AchievementPoints = 94,
+@AchievementMaxPoints = 100, 
 @AchievementDate = '2018-01-21'
 GO
 
